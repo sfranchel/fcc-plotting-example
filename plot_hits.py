@@ -1,5 +1,6 @@
 import argparse
 
+#from ROOT import dd4hep
 from podio import root_io
 import ROOT
 
@@ -14,7 +15,7 @@ def parse_args():
 
     parser.add_argument('-i', '--input',
                         type=str,
-                        default='ALLEGRO_sim_hits.root',
+                        default='ALLEGRO_o1_v03_mu_10GeV_theta90.root',
                         help='Input ROOT file containing hit data')
 
     return (parser.parse_args())
@@ -39,9 +40,9 @@ hit_collection_name = "SiWrBCollection" # sim hits collection name for Silicon W
 podio_reader = root_io.Reader(input_file)
 
 # Get metadata and cell ID decoder
-metadata = podio_reader.get("metadata")[0]
-id_encoding = metadata.get_parameter(hit_collection_name+"__CellIDEncoding")
-decoder = ROOT.dd4hep.BitFieldCoder(id_encoding)
+#metadata = podio_reader.get("metadata")[0]
+#id_encoding = metadata.get_parameter(hit_collection_name+"__CellIDEncoding")
+#decoder = ROOT.dd4hep.BitFieldCoder(id_encoding)
 
 # Loop over events
 for i,event in enumerate(podio_reader.get("events")):
@@ -51,8 +52,12 @@ for i,event in enumerate(podio_reader.get("events")):
     # Loop over the hit collection
     for hit in event.get(hit_collection_name):
 
+        # Useful doxy:
+        # https://edm4hep.web.cern.ch/classedm4hep_1_1_mutable_sim_tracker_hit.html
+        # https://edm4hep.web.cern.ch/classedm4hep_1_1_m_c_particle.html
+
         # cell_id = hit.getCellID() # maybe useful later
-        hit_energy = hit.getEnergy() * 1e3 # convert to MeV
+        hit_energy = hit.getEDep() * 1e3 # convert to MeV
         hit_time = hit.getTime()
 
         # fill the histograms
