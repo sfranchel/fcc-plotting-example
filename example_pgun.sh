@@ -30,10 +30,10 @@ ddsim --enableGun \
       --gun.distribution uniform \
       --gun.energy $ENERGY \
       --gun.particle $PARTICLE \
-      --gun.thetaMin $THETA_MIN \
-      --gun.thetaMax $THETA_MAX \
-      --gun.phiMin $PHI_MIN \
-      --gun.phiMax $PHI_MAX \
+      --gun.thetaMin=$THETA_MIN \
+      --gun.thetaMax=$THETA_MAX \
+      --gun.phiMin=$PHI_MIN \
+      --gun.phiMax=$PHI_MAX \
       --numberOfEvents $N_EVENTS \
       --random.enableEventSeed \
       --random.seed 42 \
